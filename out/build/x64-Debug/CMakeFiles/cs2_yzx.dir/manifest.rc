@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+2 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "E:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/embed.manifest"
