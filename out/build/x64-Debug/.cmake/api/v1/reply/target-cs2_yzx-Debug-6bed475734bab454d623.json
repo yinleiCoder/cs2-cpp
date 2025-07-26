@@ -180,7 +180,8 @@
 				10,
 				11,
 				12,
-				13
+				13,
+				14
 			]
 		}
 	],
@@ -241,14 +242,14 @@
 				10,
 				11,
 				12,
-				13
+				13,
+				14
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				14,
 				15,
 				16,
 				17,
@@ -267,14 +268,15 @@
 				30,
 				31,
 				32,
-				33
+				33,
+				34
 			]
 		},
 		{
 			"name" : "Precompile Header File",
 			"sourceIndexes" : 
 			[
-				34
+				35
 			]
 		}
 	],
@@ -350,6 +352,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 1,
 			"path" : "src/gui.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/recoil.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

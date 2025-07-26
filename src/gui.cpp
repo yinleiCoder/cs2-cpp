@@ -7,6 +7,7 @@ void make_menu() {
 		ImGui::Checkbox("Bhop", &yzx::movement::isBhop);
 		ImGui::Checkbox("Box", &yzx::visuals::isBoxEsp);
 		ImGui::Checkbox("Bone", &yzx::visuals::isBoneEsp);
+		ImGui::Checkbox("Recoil", &yzx::attack::isRecoil);
 	}
 	ImGui::End();
 }

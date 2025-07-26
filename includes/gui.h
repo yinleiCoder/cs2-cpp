@@ -9,6 +9,10 @@ namespace yzx {
 	namespace movement {
 		inline bool isBhop = false;// cpp 17+
 	}
+
+	namespace attack {
+		inline bool isRecoil = false;
+	}
 }
 
 void make_menu();
