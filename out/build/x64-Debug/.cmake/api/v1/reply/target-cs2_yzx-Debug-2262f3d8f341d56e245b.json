@@ -178,7 +178,8 @@
 				8,
 				9,
 				10,
-				11
+				11,
+				12
 			]
 		}
 	],
@@ -237,14 +238,14 @@
 				8,
 				9,
 				10,
-				11
+				11,
+				12
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				12,
 				13,
 				14,
 				15,
@@ -263,14 +264,15 @@
 				28,
 				29,
 				30,
-				31
+				31,
+				32
 			]
 		},
 		{
 			"name" : "Precompile Header File",
 			"sourceIndexes" : 
 			[
-				32
+				33
 			]
 		}
 	],
@@ -340,6 +342,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 1,
 			"path" : "src/gui.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/triggerbot.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

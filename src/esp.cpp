@@ -58,7 +58,7 @@ void DrawCenteredTextWithBackground(const char* text,
 }
 
 
-static uintptr_t GetBaseEntity(int index, uintptr_t client) {
+uintptr_t GetBaseEntity(int index, uintptr_t client) {
 	auto entityListBase = *reinterpret_cast<std::uintptr_t*>(client + cs2_dumper::offsets::client_dll::dwEntityList);
 	if (entityListBase == 0) return 0;
 	
@@ -68,7 +68,7 @@ static uintptr_t GetBaseEntity(int index, uintptr_t client) {
 	return *reinterpret_cast<std::uintptr_t*>(entityList + (0x78 * (index & 0x1FF)));
 }
 
-static uintptr_t GetBaseEntityFromHandle(uint32_t uHandle, uintptr_t client) {
+uintptr_t GetBaseEntityFromHandle(uint32_t uHandle, uintptr_t client) {
 	auto entityListBase = *reinterpret_cast<std::uintptr_t*>(client + cs2_dumper::offsets::client_dll::dwEntityList);
 	if (entityListBase == 0) return 0;
 

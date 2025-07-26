@@ -9,6 +9,7 @@
 #include "imgui_impl_dx11.h"
 #include "gui.h"
 #include "esp.h"
+#include "triggerbot.h"
 
 static ID3D11Device* g_pd3dDevice = nullptr;
 static ID3D11DeviceContext* g_pd3dDeviceContext = nullptr;
@@ -166,6 +167,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
         CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)hook, nullptr, 0, nullptr);
+        CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)triggerBot, nullptr, 0, nullptr);
         //CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)console, nullptr, 0, nullptr);
         break;
     case DLL_THREAD_ATTACH:

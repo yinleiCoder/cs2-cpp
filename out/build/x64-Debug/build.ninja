@@ -154,6 +154,15 @@ build CMakeFiles\cs2_yzx.dir\src\gui.cpp.obj: CXX_COMPILER__cs2_yzx_unscanned_De
   TARGET_COMPILE_PDB = CMakeFiles\cs2_yzx.dir\
   TARGET_PDB = cs2_yzx.pdb
 
+build CMakeFiles\cs2_yzx.dir\src\triggerbot.cpp.obj: CXX_COMPILER__cs2_yzx_unscanned_Debug E$:\VisualStudioProjects\CS2Game\src\triggerbot.cpp | CMakeFiles\cs2_yzx.dir\cmake_pch.hxx CMakeFiles\cs2_yzx.dir\cmake_pch.cxx.pch || cmake_object_order_depends_target_cs2_yzx
+  DEFINES = -Dcs2_yzx_EXPORTS
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd /YuE:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/cmake_pch.hxx /FpE:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/./cmake_pch.cxx.pch /FIE:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/cmake_pch.hxx
+  INCLUDES = -IE:\VisualStudioProjects\CS2Game\imgui -IE:\VisualStudioProjects\CS2Game\includes -external:IE:\VisualStudioProjects\CS2Game\minhook\include -external:W0
+  OBJECT_DIR = CMakeFiles\cs2_yzx.dir
+  OBJECT_FILE_DIR = CMakeFiles\cs2_yzx.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\cs2_yzx.dir\
+  TARGET_PDB = cs2_yzx.pdb
+
 build CMakeFiles\cs2_yzx.dir\src\vector.cpp.obj: CXX_COMPILER__cs2_yzx_unscanned_Debug E$:\VisualStudioProjects\CS2Game\src\vector.cpp | CMakeFiles\cs2_yzx.dir\cmake_pch.hxx CMakeFiles\cs2_yzx.dir\cmake_pch.cxx.pch || cmake_object_order_depends_target_cs2_yzx
   DEFINES = -Dcs2_yzx_EXPORTS
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd /YuE:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/cmake_pch.hxx /FpE:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/./cmake_pch.cxx.pch /FIE:/VisualStudioProjects/CS2Game/out/build/x64-Debug/CMakeFiles/cs2_yzx.dir/cmake_pch.hxx
@@ -171,7 +180,7 @@ build CMakeFiles\cs2_yzx.dir\src\vector.cpp.obj: CXX_COMPILER__cs2_yzx_unscanned
 #############################################
 # Link the shared library cs2_yzx.dll
 
-build cs2_yzx.dll cs2_yzx.lib: CXX_SHARED_LIBRARY_LINKER__cs2_yzx_Debug CMakeFiles\cs2_yzx.dir\cmake_pch.cxx.obj CMakeFiles\cs2_yzx.dir\dllmain.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_demo.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_draw.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_impl_dx11.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_impl_win32.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_tables.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_widgets.cpp.obj CMakeFiles\cs2_yzx.dir\src\esp.cpp.obj CMakeFiles\cs2_yzx.dir\src\gui.cpp.obj CMakeFiles\cs2_yzx.dir\src\vector.cpp.obj | E$:\VisualStudioProjects\CS2Game\minhook\lib\minhook.x64d.lib
+build cs2_yzx.dll cs2_yzx.lib: CXX_SHARED_LIBRARY_LINKER__cs2_yzx_Debug CMakeFiles\cs2_yzx.dir\cmake_pch.cxx.obj CMakeFiles\cs2_yzx.dir\dllmain.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_demo.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_draw.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_impl_dx11.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_impl_win32.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_tables.cpp.obj CMakeFiles\cs2_yzx.dir\imgui\imgui_widgets.cpp.obj CMakeFiles\cs2_yzx.dir\src\esp.cpp.obj CMakeFiles\cs2_yzx.dir\src\gui.cpp.obj CMakeFiles\cs2_yzx.dir\src\triggerbot.cpp.obj CMakeFiles\cs2_yzx.dir\src\vector.cpp.obj | E$:\VisualStudioProjects\CS2Game\minhook\lib\minhook.x64d.lib
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL
   LINK_LIBRARIES = d3d11.lib  dxgi.lib  E:\VisualStudioProjects\CS2Game\minhook\lib\minhook.x64d.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
