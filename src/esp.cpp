@@ -204,7 +204,7 @@ void make_esp() {
 
 	auto localTeam = *reinterpret_cast<int*>(localPawn + cs2_dumper::schemas::client_dll::C_BaseEntity::m_iTeamNum);
 
-	// 世界矩阵
+	// 世界矩阵:由相机的位置和方向组成，transform world space into camera space
 	auto matrix = reinterpret_cast<float*>(client + cs2_dumper::offsets::client_dll::dwViewMatrix);
 
 	for (int i = 0; i < 64; i++) {// CS2社区服的头64个entity是玩家，普通服是头32个

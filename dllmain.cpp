@@ -7,9 +7,13 @@
 #include "imgui.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx11.h"
+#include "./cs2dumper/offsets.hpp"
+#include "./cs2dumper/client_dll.hpp"
 #include "gui.h"
 #include "esp.h"
 #include "triggerbot.h"
+#include "cusercmd.h"
+#include "bhop.h"
 
 static ID3D11Device* g_pd3dDevice = nullptr;
 static ID3D11DeviceContext* g_pd3dDeviceContext = nullptr;
@@ -17,11 +21,13 @@ static IDXGISwapChain* g_pSwapChain = nullptr;
 static ID3D11RenderTargetView* g_mainRenderTargetView = nullptr;
 static HWND g_hwnd = nullptr;
 
-void* origin_present = nullptr;
 bool isInitialized = false;
 
 // 成员方法的第一个隐藏参数是对象的地址
 using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
+void* origin_present = nullptr;// Present原函数的声明
+// createmove原函数声明
+static bool(__fastcall* fnOriginalCreateMove)(void*, int, CUserCMD*) = nullptr;//参数3 uint8_t为UserCMD的指针
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -77,6 +83,15 @@ long __stdcall custom_present(IDXGISwapChain* _this, UINT SyncInterval, UINT Fla
     return ((Present)origin_present)(_this, SyncInterval, Flags);
 }
 
+// 自定义createmove函数hook
+static bool __fastcall custom_createmove(void* pCSGOInput, int nSlot, CUserCMD* pcmd) {
+    // 写自己的作弊逻辑
+    bHop(pcmd);
+
+    // minhook要求当我们hook函数时，需要调用原函数
+    return fnOriginalCreateMove(pCSGOInput, nSlot, pcmd);
+}
+
 void hook() {
     WNDCLASSEX windowClass;
     windowClass.cbSize = sizeof(WNDCLASSEX);
@@ -127,7 +142,7 @@ void hook() {
         // 根据虚函数表找到Present函数的位置，google后发现是在第8个位置
         auto present = vtable[8];
 
-        // 使用MinHook进行Hook Present函数
+        // 使用MinHook进行Hook IDXGISwapChain的Present函数
         MH_Initialize();
         MH_CreateHook(present, custom_present, &origin_present);
         MH_EnableHook(present);
@@ -141,6 +156,14 @@ void hook() {
         ::DestroyWindow(window);
         ::UnregisterClass(windowClass.lpszClassName, windowClass.hInstance);
     }
+
+    // vtable hook createmove实现完美连跳、自瞄等
+    const auto client = reinterpret_cast<uintptr_t>(GetModuleHandle("client.dll"));
+    void* pCCSGOInput = reinterpret_cast<void*>(client + cs2_dumper::offsets::client_dll::dwCSGOInput);// dwCSGOInput虚函数表
+    void* pfnCreateMove = (*reinterpret_cast<void***>(pCCSGOInput))[21]; // or 5, 它们参数不同(createmove有2个)
+    MH_CreateHook(pfnCreateMove, custom_createmove, reinterpret_cast<void**>(&fnOriginalCreateMove));
+    MH_EnableHook(pfnCreateMove);
+
 }
 
 void console() {
@@ -173,9 +196,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
-        MH_DisableHook(MH_ALL_HOOKS);
-        MH_Uninitialize();
-        ImGui_ImplDX11_Shutdown();
+        FreeLibraryAndExitThread(hModule, 0);
         break;
     }
     return TRUE;

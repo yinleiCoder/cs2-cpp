@@ -179,7 +179,8 @@
 				9,
 				10,
 				11,
-				12
+				12,
+				13
 			]
 		}
 	],
@@ -239,14 +240,14 @@
 				9,
 				10,
 				11,
-				12
+				12,
+				13
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				13,
 				14,
 				15,
 				16,
@@ -265,14 +266,15 @@
 				29,
 				30,
 				31,
-				32
+				32,
+				33
 			]
 		},
 		{
 			"name" : "Precompile Header File",
 			"sourceIndexes" : 
 			[
-				33
+				34
 			]
 		}
 	],
@@ -330,6 +332,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 1,
 			"path" : "imgui/imgui_widgets.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/bhop.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

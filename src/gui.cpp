@@ -4,6 +4,7 @@
 void make_menu() {
 	ImGui::Begin("YinZhiXia");
 	{
+		ImGui::Checkbox("Bhop", &yzx::movement::isBhop);
 		ImGui::Checkbox("Box", &yzx::visuals::isBoxEsp);
 		ImGui::Checkbox("Bone", &yzx::visuals::isBoneEsp);
 	}
