@@ -221,6 +221,8 @@ void make_esp() {
 		if (localTeam == playerTeam) {// ∂””—
 			continue;
 		}
+	/*	const char* playerNameRaw = reinterpret_cast<const char*>(playerController + cs2_dumper::schemas::client_dll::CBasePlayerController::m_iszPlayerName);
+		std::string playerName(playerNameRaw, 128);*/
 
 		auto playerHealth = *reinterpret_cast<int*>(playerPawn + cs2_dumper::schemas::client_dll::C_BaseEntity::m_iHealth);
 		if (playerHealth <= 0) continue;// µ–»ÀÀ¿Õˆ
@@ -245,13 +247,18 @@ void make_esp() {
 		const float y = head2D.y - (width / 2.5f);
 
 		if (yzx::visuals::isBoxEsp) {
-			//DrawCenteredCircle();
 			//DrawCenteredTextWithBackground(std::to_string(widthDS).append(",").append(std::to_string(heightDS)).append(",").append(std::to_string(foot2D.y)).append(",").append(std::to_string(head2D.y)).c_str(), ImColor(0, 255, 0, 255), ImColor(255, 255, 255, 255));
-			ImGui::GetBackgroundDrawList()->AddRect(ImVec2(x, y), ImVec2(x+width, y+height),ImColor(255,0,0,255), 5.f, 0, 2.f);
+			ImGui::GetBackgroundDrawList()->AddRect(ImVec2(x, y), ImVec2(x + width, y + height), yzx::style::boxColor, 5.f, 0, 2.f);
 		}
 
 		if (yzx::visuals::isBoneEsp) {
-			drawBone(playerPawn, ImColor(255, 255, 255, 255), matrix);
+			drawBone(playerPawn, yzx::style::boneColor, matrix);
+		}
+
+		if (yzx::visuals::isPlayerEsp) {
+			ImGui::GetBackgroundDrawList()->AddRectFilled(ImVec2(x - 10, y - 5), ImVec2(x-5, y + height), yzx::style::healthColor, 5.f);
+			ImGui::GetBackgroundDrawList()->AddText(ImVec2(x, y + height / 2), ImColor(255, 255, 255, 255), std::to_string(playerHealth).c_str());
+			//ImGui::GetBackgroundDrawList()->AddText(ImVec2(head2D.x, y - 5), yzx::style::playerNameColor, playerName.c_str());
 		}
 	}
 
