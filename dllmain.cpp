@@ -66,7 +66,7 @@ long __stdcall custom_present(IDXGISwapChain* _this, UINT SyncInterval, UINT Fla
 
     // 自定义作弊逻辑
     make_menu();
-    draw_esp();
+    make_esp();
 
     // Rendering
     ImGui::Render();

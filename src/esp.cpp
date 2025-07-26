@@ -2,10 +2,8 @@
 #include <optional>
 #include <cmath>
 #include <string>
-#include "imgui.h"
 #include "../cs2dumper/offsets.hpp"
 #include "../cs2dumper/client_dll.hpp"
-#include "vector.h"
 #include "esp.h"
 #include "gui.h"
 
@@ -129,7 +127,69 @@ bool WorldToScreen(Vector3 world, Vector3& screen, float* matrix, const int winW
 	return true;
 }
 
-void draw_esp() {
+Vector3 GetBone(uintptr_t addr, int32_t index) {
+	int32_t d = 32 * index;
+	uintptr_t address{};
+	address = *reinterpret_cast<std::uintptr_t*>(addr + cs2_dumper::schemas::client_dll::C_BaseEntity::m_pGameSceneNode);
+	if (!address) return Vector3();
+
+	address = *reinterpret_cast<std::uintptr_t*>(address + cs2_dumper::schemas::client_dll::CSkeletonInstance::m_modelState + 0x80);
+	if (!address) return Vector3();
+
+	return *reinterpret_cast<Vector3*>(address + d);// 得到当前骨骼结点的坐标
+}
+
+void drawBoneLine(std::vector<Vector3> bones, ImColor color, float* matrix) {
+	Vector3 points;// 骨骼节点坐标转换为屏幕坐标
+	std::vector<Vector3> drawList{};
+	for (int i = 0; i < bones.size(); ++i) {
+		if (!WorldToScreen(bones[i], points, matrix, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN))) continue;
+		drawList.push_back(points);
+	}
+
+	for (int i = 1; i < drawList.size(); ++i) {
+		ImGui::GetBackgroundDrawList()->AddLine(ImVec2(drawList[i].x, drawList[i].y), ImVec2(drawList[i-1].x, drawList[i-1].y), color);
+	}
+}
+
+void drawBone(uintptr_t pawn, ImColor boneColor, float* matrix){
+	boneDrawList.clear();
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::head));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::neck_0));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::spine_2));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::pelvis));
+	drawBoneLine(boneDrawList, boneColor, matrix);
+
+	boneDrawList.clear();
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::neck_0));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::arm_upper_l));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::arm_lower_l));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::hand_l));
+	drawBoneLine(boneDrawList, boneColor, matrix);
+
+	boneDrawList.clear();
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::neck_0));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::arm_upper_r));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::arm_lower_r));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::hand_r));
+	drawBoneLine(boneDrawList, boneColor, matrix);
+
+	boneDrawList.clear();
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::pelvis));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::leg_upper_l));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::leg_lower_l));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::ankle_l));
+	drawBoneLine(boneDrawList, boneColor, matrix);
+
+	boneDrawList.clear();
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::pelvis));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::leg_upper_r));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::leg_lower_r));
+	boneDrawList.push_back(GetBone(pawn, Bone::BoneIndex::ankle_r));
+	drawBoneLine(boneDrawList, boneColor, matrix);
+}
+
+void make_esp() {
 	const auto client = reinterpret_cast<uintptr_t>(GetModuleHandle("client.dll"));
 	auto localController = *reinterpret_cast<std::uintptr_t*>(client + cs2_dumper::offsets::client_dll::dwLocalPlayerController);
 	auto localHpawn = *reinterpret_cast<std::uint32_t*>(localController + cs2_dumper::schemas::client_dll::CBasePlayerController::m_hPawn);
@@ -144,6 +204,7 @@ void draw_esp() {
 
 	auto localTeam = *reinterpret_cast<int*>(localPawn + cs2_dumper::schemas::client_dll::C_BaseEntity::m_iTeamNum);
 
+	// 世界矩阵
 	auto matrix = reinterpret_cast<float*>(client + cs2_dumper::offsets::client_dll::dwViewMatrix);
 
 	for (int i = 0; i < 64; i++) {// CS2社区服的头64个entity是玩家，普通服是头32个
@@ -187,6 +248,10 @@ void draw_esp() {
 			//DrawCenteredCircle();
 			//DrawCenteredTextWithBackground(std::to_string(widthDS).append(",").append(std::to_string(heightDS)).append(",").append(std::to_string(foot2D.y)).append(",").append(std::to_string(head2D.y)).c_str(), ImColor(0, 255, 0, 255), ImColor(255, 255, 255, 255));
 			ImGui::GetBackgroundDrawList()->AddRect(ImVec2(x, y), ImVec2(x+width, y+height),ImColor(255,0,0,255), 5.f, 0, 2.f);
+		}
+
+		if (yzx::visuals::isBoneEsp) {
+			drawBone(playerPawn, ImColor(255, 255, 255, 255), matrix);
 		}
 	}
 
