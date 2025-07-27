@@ -256,9 +256,43 @@ void make_esp() {
 		}
 
 		if (yzx::visuals::isPlayerEsp) {
-			ImGui::GetBackgroundDrawList()->AddRectFilled(ImVec2(x - 10, y - 5), ImVec2(x-5, y + height), yzx::style::healthColor, 5.f);
-			ImGui::GetBackgroundDrawList()->AddText(ImVec2(x, y + height / 2), ImColor(255, 255, 255, 255), std::to_string(playerHealth).c_str());
 			//ImGui::GetBackgroundDrawList()->AddText(ImVec2(head2D.x, y - 5), yzx::style::playerNameColor, playerName.c_str());
+
+			// 血条参数设置
+			const float barWidth = 5.0f;       // 血条宽度
+			const float barX = x - 10;         // 血条左上角X坐标
+			const float barTop = y - 5;         // 血条顶部Y坐标
+			const float barBottom = y + height; // 血条底部Y坐标
+			const float barHeight = barBottom - barTop; // 血条总高度
+
+			// 计算当前血量高度（按百分比）
+			const float healthPercent = playerHealth / 100.0f;
+			const float currentHealthHeight = barHeight * healthPercent;
+			const float healthBarTop = barBottom - currentHealthHeight; // 从底部开始计算
+
+			// 绘制血条背景（灰色）
+			ImGui::GetBackgroundDrawList()->AddRectFilled(
+				ImVec2(barX, barTop),
+				ImVec2(barX + barWidth, barBottom),
+				IM_COL32(50, 50, 50, 255), // 深灰色背景
+				5.0f
+			);
+
+			// 绘制当前血量（动态部分）
+			ImGui::GetBackgroundDrawList()->AddRectFilled(
+				ImVec2(barX, healthBarTop),
+				ImVec2(barX + barWidth, barBottom),
+				yzx::style::healthColor, // 使用你的健康颜色
+				5.0f
+			);
+
+			// 显示血量数值（居中在血条右侧）
+			const float textY = barTop + (barHeight - ImGui::GetFontSize()) / 2;
+			ImGui::GetBackgroundDrawList()->AddText(
+				ImVec2(barX, textY), // X位置在血条右侧
+				ImColor(255, 255, 255, 255),
+				std::to_string(playerHealth).c_str()
+			);
 		}
 	}
 
